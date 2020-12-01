@@ -5,7 +5,7 @@ using namespace std;
 LL part_one(LL a[], LL n, LL expected_sum) {
   LL left = 0;
   LL right = n - 1;
-  while (left <= right) {
+  while (left < right) {
     LL current_sum = a[left] + a[right];
     if (current_sum == expected_sum) {
       return a[left] * a[right];
