@@ -1,29 +1,25 @@
 #include <bits/stdc++.h>
+#include <boost/algorithm/string.hpp>
 #define LL int long long
 using namespace std;
 
-pair<LL, LL> calculate_range(pair<LL, LL> range, char decider) {
-  pair<LL, LL> computed_range = range;
-  if (decider == 'F' || decider == 'L') {
-    computed_range.second =
-        range.second - ((range.second - range.first + 1) / 2);
-  } else if (decider == 'B' || decider == 'R') {
-    computed_range.first = range.first + ((range.second - range.first + 1) / 2);
+LL binary_to_decimal(LL binary) {
+  LL exponent = 0, decimal = 0;
+  while (binary > 0) {
+    decimal += (binary % 10) << exponent++;
+    binary /= 10;
   }
-  return computed_range;
+  return decimal;
 }
 
 pair<LL, LL> part_one(string row, string col) {
-  LL total_row = 127, total_col = 7;
-  pair<LL, LL> ans, row_tracker(0, total_row), col_tracker(0, total_col);
-  for (LL i = 0; i < row.size(); i++) {
-    row_tracker = calculate_range(row_tracker, row[i]);
-  }
-  for (LL i = 0; i < col.size(); i++) {
-    col_tracker = calculate_range(col_tracker, col[i]);
-  }
-  ans.first = row_tracker.first;
-  ans.second = col_tracker.second;
+  pair<LL, LL> ans;
+  boost::replace_all(row, "F", "0");
+  boost::replace_all(row, "B", "1");
+  boost::replace_all(col, "L", "0");
+  boost::replace_all(col, "R", "1");
+  ans.first = binary_to_decimal(stoll(row));
+  ans.second = binary_to_decimal(stoll(col));
   return ans;
 }
 
