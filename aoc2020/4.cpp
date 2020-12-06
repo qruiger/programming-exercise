@@ -126,18 +126,13 @@ pair<LL, LL> solve(vector<string> input) {
       vector<string> input_split;
       split(input_split, input[i], boost::is_any_of(" "));
       passport.insert(passport.end(), input_split.begin(), input_split.end());
-    } else {
+    }
+    if (input[i].empty() || i == (input.size() - 1)) {
       ans.first =
           part_one(passport, compulsory_fields) ? ans.first + 1 : ans.first;
       ans.second =
           part_two(passport, compulsory_fields) ? ans.second + 1 : ans.second;
       passport.clear();
-    }
-    if (i == input.size() - 1) {
-      ans.first =
-          part_one(passport, compulsory_fields) ? ans.first + 1 : ans.first;
-      ans.second =
-          part_two(passport, compulsory_fields) ? ans.second + 1 : ans.second;
     }
   }
   return ans;
