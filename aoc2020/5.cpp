@@ -30,6 +30,7 @@ LL part_two(vector<LL> seat_ids) {
       return (seat_ids[i] - 1);
     }
   }
+  return -1;
 }
 
 pair<LL, LL> solve(vector<string> input) {
