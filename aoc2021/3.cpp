@@ -32,6 +32,47 @@ LL part_one(vector<string> input) {
   return gamma_rate * epsilon_rate;
 }
 
+vector<string> get_numbers(vector<string> input,
+                           LL position,
+                           char tie_breaker,
+                           char significance) {
+  vector<string> one, zero;
+  for (LL row = 0; row < input.size(); row++) {
+    if (input[row][position] == '1') {
+      one.push_back(input[row]);
+    } else {
+      zero.push_back(input[row]);
+    }
+  }
+  if (one.size() == zero.size()) {
+    return tie_breaker == '1' ? one : zero;
+  }
+  if (significance == 'm') {
+    return one.size() > zero.size() ? one : zero;
+  }
+  if (significance == 'l') {
+    return one.size() < zero.size() ? one : zero;
+  }
+}
+
+LL solver(vector<string> input,
+          LL n,
+          LL position,
+          char tie_breaker,
+          char significance) {
+  if (input.size() == 1) {
+    return binary_to_decimal(input[0]);
+  }
+  vector<string> numbers =
+      get_numbers(input, position, tie_breaker, significance);
+  return solver(numbers, n, ++position, tie_breaker, significance);
+}
+
+LL part_two(vector<string> input) {
+  return solver(input, input.size(), 0, '1', 'm') *
+         solver(input, input.size(), 0, '0', 'l');
+}
+
 int main() {
   ios_base::sync_with_stdio(false);
   vector<string> input;
@@ -44,6 +85,6 @@ int main() {
   }
   input.pop_back();
   cout << "part_one = " << part_one(input) << endl;
-  // cout << "part_two = " << part_two() << endl;
+  cout << "part_two = " << part_two(input) << endl;
   return 0;
 }
